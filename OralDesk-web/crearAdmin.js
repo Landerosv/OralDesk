@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const Usuario = require('./models/Usuario');
+const Usuario = require('./models/usuario');
 
 async function crearAdmin() {
   const [nombre, correo, password] = process.argv.slice(2);

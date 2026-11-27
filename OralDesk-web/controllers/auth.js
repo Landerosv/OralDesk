@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const usuario = require('../models/Usuario');
+const Usuario = require('../models/usuario');
 const { HttpError } = require('../middlewares/errorHandler');
 
 const MAX_INTENTOS = 5;
@@ -10,12 +10,12 @@ const HASH_FALSO = bcrypt.hashSync('contraseña-falsa-para-igualar-tiempos', 10)
 
 async function registrarFallo(usuario) {
   if (usuario.intentosFallidos + 1 >= MAX_INTENTOS) {
-    await usuario.updateOne({ _id: usuario._id }, {
+    await Usuario.updateOne({ _id: usuario._id }, {
       intentosFallidos: 0,
       bloqueadoHasta: new Date(Date.now() + MINUTOS_BLOQUEO * 60000)
     });
   } else {
-    await usuario.updateOne({ _id: usuario._id }, { $inc: { intentosFallidos: 1 } });
+    await Usuario.updateOne({ _id: usuario._id }, { $inc: { intentosFallidos: 1 } });
   }
 }
 
