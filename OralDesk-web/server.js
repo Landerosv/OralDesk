@@ -18,7 +18,6 @@
 
     // Ruta de prueba
     app.use(express.static(path.join(__dirname, 'public')));
-    app.get('/api/salud', (req, res) => res.status(200).json({ estado: 'ok' }));
     app.use('/api/auth', require('./routes/auth'));
     // Errores (siempre al final)
     app.use('/api', rutaNoEncontrada);
@@ -26,9 +25,10 @@
 
     const PORT = process.env.PORT || 3000;
 
-    conectarDB()
-        .then(() => app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`)))
+   conectarDB()
+        .then(() => {
+            app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`));
+        })
         .catch((error) => {
-        console.error('No se pudo conectar a Atlas:', error.message);
-        process.exit(1);
-    });
+            console.error('No se pudo conectar a Atlas:', error.message);
+        });
