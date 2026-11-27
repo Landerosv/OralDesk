@@ -9,9 +9,19 @@
     function rutaNoEncontrada(req, res, next) {
         next(new HttpError(404, `Ruta no encontrada: ${req.method} ${req.originalUrl}`));
     }
+    
     function manejadorErrores(err, req, res, next) {
-        const status = err.status || 500;
-        if (status === 500) console.error(err);
-        res.status(status).json({ msg: status === 500 ? 'Error interno del servidor' : err.message });
-    }
+      let status = err.status || 500;
+      let mensaje = err.message;
+
+      if (err.type === 'entity.parse.failed') {
+        status = 400;
+        mensaje = 'El cuerpo de la petición no es un JSON válido';
+      }
+      if (status === 500) {
+        console.error(err);
+        mensaje = 'Error interno del servidor';
+      }
+      res.status(status).json({ msg: mensaje });
+  }
     module.exports = { HttpError, rutaNoEncontrada, manejadorErrores };

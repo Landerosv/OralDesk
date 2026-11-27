@@ -1,18 +1,25 @@
 ////////////////
 
     require('dotenv').config();
+    const path = require('path');
     const express = require('express');
     const morgan = require('morgan');
     const conectarDB = require('./config/db');
     const { rutaNoEncontrada, manejadorErrores } = require('./middlewares/errorHandler');
+
+    if (!process.env.JWT_SECRET) {
+        console.error('Falta JWT_SECRET en el archivo .env');
+        process.exit(1);
+    }
 
     const app = express();
     app.use(morgan('dev'));
     app.use(express.json());
 
     // Ruta de prueba
+    app.use(express.static(path.join(__dirname, 'public')));
     app.get('/api/salud', (req, res) => res.status(200).json({ estado: 'ok' }));
-
+    app.use('/api/auth', require('./routes/auth'));
     // Errores (siempre al final)
     app.use('/api', rutaNoEncontrada);
     app.use(manejadorErrores);
