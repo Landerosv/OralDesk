@@ -14,7 +14,7 @@
     <form id="formSucursal">
       <p><label>Nombre: <input name="nombre" maxlength="80" required></label></p>
       <p><label>Dirección: <input name="direccion" maxlength="200" required></label></p>
-      <p><label>Teléfono: <input name="telefono" maxlength="20"></label></p>
+            <p><label>Teléfono: <input name="telefono" type="tel" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" title="Escribe 10 dígitos, solo números"></label></p>
       <p><label>Hora de apertura: <input name="horaApertura" type="time" required></label></p>
       <p><label>Hora de cierre: <input name="horaCierre" type="time" required></label></p>
       <p><label>Consultorios: <input name="consultorios" type="number" min="1" max="50" step="1" required></label></p>

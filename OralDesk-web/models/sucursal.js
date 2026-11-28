@@ -11,24 +11,32 @@ const sucursalSchema = new mongoose.Schema({
     required: [true, 'La organización es obligatoria'],
     immutable: true
   },
-  nombre: {
-    type: String,
-    required: [true, 'El nombre es obligatorio'],
-    trim: true,
-    maxlength: [80, 'El nombre no puede pasar de 80 caracteres']
-  },
+ 
+   nombre: {
+      type: String,
+      required: [true, 'El nombre es obligatorio'],
+      trim: true,
+      set: (v) => (typeof v === 'string' ? v.trim().replace(/\s+/g, ' ') : v),
+      maxlength: [80, 'El nombre no puede pasar de 80 caracteres'],
+      match: [/\p{L}/u, 'El nombre debe contener al menos una letra']
+    },
   
-  direccion: {
-    type: String,
-    required: [true, 'La dirección es obligatoria'],
-    trim: true,
-    maxlength: [200, 'La dirección no puede pasar de 200 caracteres']
-  },
-  telefono: {
-    type: String,
-    trim: true,
-    match: [/^[0-9 +()-]{7,20}$/, 'El teléfono solo puede llevar números, espacios, + ( ) y -']
-  },
+    direccion: {
+      type: String,
+      required: [true, 'La dirección es obligatoria'],
+      trim: true,
+      set: (v) => (typeof v === 'string' ? v.trim().replace(/\s+/g, ' ') : v),
+      minlength: [5, 'La dirección debe tener al menos 5 caracteres'],
+      maxlength: [200, 'La dirección no puede pasar de 200 caracteres'],
+      match: [/\p{L}/u, 'La dirección debe contener al menos una letra']
+    },
+
+
+     telefono: {
+      type: String,
+      trim: true,
+      match: [/^[0-9]{10}$/, 'El teléfono debe tener exactamente 10 dígitos']
+    },
 
   horaApertura: {
     type: String,

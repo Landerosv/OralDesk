@@ -1,7 +1,7 @@
 
 const Sucursal = require('../models/sucursal');
 const { HttpError } = require('../middlewares/errorHandler');
-
+const MAX_SUCURSALES_ACTIVAS = 20; 
 const CAMPOS = ['nombre', 'direccion', 'telefono', 'horaApertura', 'horaCierre', 'consultorios', 'activo'];
 
   function tomarCampos(body) {
@@ -25,6 +25,17 @@ const CAMPOS = ['nombre', 'direccion', 'telefono', 'horaApertura', 'horaCierre',
     return { ...extra, organizacionId: req.usuario.organizacionId };
   }
 
+  // Revisa que la organización no pase del máximo de sucursales activas
+  async function validarLimite(req, excluirId) {
+    const filtro = deMiOrganizacion(req, { activo: true });
+    if (excluirId) filtro._id = { $ne: excluirId };
+    const activas = await Sucursal.countDocuments(filtro);
+    
+    if (activas >= MAX_SUCURSALES_ACTIVAS) {
+      throw new HttpError(409, `Se alcanzó el máximo de ${MAX_SUCURSALES_ACTIVAS} sucursales activas`);
+    }
+  }
+
   // CREATE: POST /api/sucursales
   async function crear(req, res, next) {
     try {
@@ -34,6 +45,7 @@ const CAMPOS = ['nombre', 'direccion', 'telefono', 'horaApertura', 'horaCierre',
       });
       await sucursal.validate();
       validarHorario(sucursal);
+      if (sucursal.activo) await validarLimite(req);
       await sucursal.save();
       res.status(201).json(sucursal);
     } catch (error) {
@@ -79,9 +91,11 @@ const CAMPOS = ['nombre', 'direccion', 'telefono', 'horaApertura', 'horaCierre',
       if (Object.keys(datos).length === 0) {
         throw new HttpError(400, 'No se envió ningún campo para actualizar');
       }
+      const estabaActiva = sucursal.activo;
       Object.assign(sucursal, datos);
       await sucursal.validate();
       validarHorario(sucursal);
+      if (!estabaActiva && sucursal.activo) await validarLimite(req, sucursal._id);
       await sucursal.save();
       res.status(200).json(sucursal);
     } catch (error) {

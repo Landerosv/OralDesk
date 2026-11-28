@@ -9,6 +9,10 @@ const tituloForm = document.getElementById('tituloForm');
 const btnGuardar = document.getElementById('btnGuardar');
 const btnCancelar = document.getElementById('btnCancelar');
 
+  // Solo deja escribir dígitos en el teléfono (también cuando se pega texto)
+  form.elements.telefono.addEventListener('input', (e) => {
+    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+  });
 // Solo el propietario ve el formulario y la columna de acciones
 document.getElementById('seccionForm').hidden = !esPropietario;
 document.getElementById('thAcciones').hidden = !esPropietario;
