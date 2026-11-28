@@ -50,8 +50,8 @@ async function login(req, res, next) {
       await Usuario.updateOne({ _id: usuario._id }, { intentosFallidos: 0, $unset: { bloqueadoHasta: '' } });
     }
 
-    const token = jwt.sign(
-      { id: usuario._id, rol: usuario.rol },
+        const token = jwt.sign(
+      { id: usuario._id, rol: usuario.rol, organizacionId: usuario.organizacionId },
       process.env.JWT_SECRET,
       { expiresIn: recordar === true ? '7d' : '8h' }
     );

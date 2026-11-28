@@ -5,4 +5,4 @@
     router.post('/login', login);
 
     module.exports = router;
-    const verificarToken = require('../middlewares/verificarToken');
+   

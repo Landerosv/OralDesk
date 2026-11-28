@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OralDesk - Sucursales</title>
+</head>
+<body>
+  <p><a href="principal.html">← Volver al panel</a></p>
+  <h1>Sucursales</h1>
+
+  <section id="seccionForm">
+    <h2 id="tituloForm">Nueva sucursal</h2>
+    <form id="formSucursal">
+      <p><label>Nombre: <input name="nombre" maxlength="80" required></label></p>
+      <p><label>Dirección: <input name="direccion" maxlength="200" required></label></p>
+      <p><label>Teléfono: <input name="telefono" maxlength="20"></label></p>
+      <p><label>Hora de apertura: <input name="horaApertura" type="time" required></label></p>
+      <p><label>Hora de cierre: <input name="horaCierre" type="time" required></label></p>
+      <p><label>Consultorios: <input name="consultorios" type="number" min="1" max="50" step="1" required></label></p>
+      <p><label><input name="activo" type="checkbox" checked> Activa</label></p>
+      <p>
+        <button type="submit" id="btnGuardar">Crear sucursal</button>
+        <button type="button" id="btnCancelar" hidden>Cancelar edición</button>
+      </p>
+      <p id="mensajeForm"></p>
+    </form>
+  </section>
+
+  <h2>Lista</h2>
+  <p id="mensaje"></p>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Horario</th>
+        <th>Consultorios</th>
+        <th>Estado</th>
+        <th id="thAcciones">Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tabla"></tbody>
+  </table>
+
+  <script src="js/auth.js"></script>
+  <script src="js/sucursales.js"></script>
+</body>
+</html>

@@ -18,6 +18,20 @@
         status = 400;
         mensaje = 'El cuerpo de la petición no es un JSON válido';
       }
+
+      if (err.name === 'ValidationError') {
+        status = 400;
+        mensaje = Object.values(err.errors).map((e) => e.message).join('. ');
+      }
+      if (err.code === 11000) {
+        status = 409;
+        mensaje = 'Ya existe un registro con ese valor';
+      }
+      if (err.name === 'CastError') {
+        status = 400;
+        mensaje = 'El identificador no es válido';
+      }
+
       if (status === 500) {
         console.error(err);
         mensaje = 'Error interno del servidor';

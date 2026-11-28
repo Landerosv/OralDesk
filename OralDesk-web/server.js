@@ -16,9 +16,11 @@
     app.use(morgan('dev'));
     app.use(express.json());
 
-    // Ruta de prueba
+    // Rutas
     app.use(express.static(path.join(__dirname, 'public')));
     app.use('/api/auth', require('./routes/auth'));
+    app.use('/api/sucursales', require('./routes/sucursales'));
+    
     // Errores (siempre al final)
     app.use('/api', rutaNoEncontrada);
     app.use(manejadorErrores);

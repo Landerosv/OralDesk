@@ -13,6 +13,15 @@ const usuarioSchema = new mongoose.Schema({
   password: { type: String, required: [true, 'La contraseña es obligatoria'], select: false },
   rol: { type: String, enum: ['propietario', 'personal'], default: 'personal' },
   esDentista: { type: Boolean, default: false },
+    
+  organizacionId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Organizacion',
+    required: [true, 'La organización es obligatoria'],
+    immutable: true, // un usuario no puede cambiarse de organización después de creado
+    index: true
+  },
+  
   activo: { type: Boolean, default: true },
   intentosFallidos: { type: Number, default: 0 },
   bloqueadoHasta: { type: Date }
@@ -27,5 +36,7 @@ usuarioSchema.set('toJSON', {
     return ret;
   }
 });
+
+
 
 module.exports = mongoose.model('Usuario', usuarioSchema, 'usuarios');
