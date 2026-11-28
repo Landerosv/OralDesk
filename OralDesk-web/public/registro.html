@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OralDesk - Registrar clínica</title>
+</head>
+<body>
+  <p><a href="index.html">← Volver al inicio de sesión</a></p>
+  <h1>Registrar mi clínica</h1>
+
+  <form id="formRegistro">
+    <p><label>Nombre de la clínica: <input name="organizacion" maxlength="100" required></label></p>
+    <p><label>Tu nombre: <input name="nombre" maxlength="80" required></label></p>
+    <p><label>Correo: <input name="correo" type="email" maxlength="254" required></label></p>
+    <p><label>Contraseña (8 a 72 caracteres): <input name="password" type="password" minlength="8" maxlength="72" required></label></p>
+    <p><label>Repite la contraseña: <input name="password2" type="password" minlength="8" maxlength="72" required></label></p>
+    <p><label><input name="esDentista" type="checkbox" checked> Yo también atiendo como dentista</label></p>
+    <p><button type="submit" id="btnRegistrar">Crear clínica</button></p>
+    <p id="mensaje"></p>
+  </form>
+
+  <script src="js/registro.js"></script>
+</body>
+</html>
